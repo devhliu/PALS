@@ -1,16 +1,17 @@
 try:
 	import Tkinter as tk
 	from Tkinter import *
+	import tkFileDialog
 except ImportError:
 	import tkinter as tk
 	from tkinter import *
+	from tkinter import filedialog as tkFileDialog
 
-import tkFileDialog
 import os
 
 from utils import isValidPath
-from base_input import *
-from popups import QCPopup
+from .base_input import *
+from .popups import QCPopup
 
 
 class WelcomePage(BaseInputPage, object):
@@ -99,6 +100,6 @@ class WelcomePage(BaseInputPage, object):
 
 
 	def checkValues(self, controller):
-		print controller.sv_input_dir.get()
-		print controller.sv_output_dir.get()
-		print controller.run_normalize_status.get()
+		print(controller.sv_input_dir.get())
+		print(controller.sv_output_dir.get())
+		print(controller.run_normalize_status.get())

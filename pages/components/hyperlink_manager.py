@@ -1,5 +1,10 @@
-from Tkinter import *
-
+try:
+    import Tkinter as tk
+    from Tkinter import *
+except ImportError:
+    import tkinter as tk
+    from tkinter import *
+    
 class HyperlinkManager:
 
     def __init__(self, text):

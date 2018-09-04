@@ -3,12 +3,7 @@ import ntpath
 from datetime import datetime
 from shutil import copyfile, rmtree
 
-class BaseOperation():
-
-	def __new__(cls, *args, **kwargs):
-		if cls is BaseOperation:
-			raise TypeError('Base operation may not be instantiated')
-		return object.__new__(cls, *args, **kwargs)
+class BaseOperation(object):
 
 	def createUniqueDir(self):
 		if self.unique_dir_name == None:
@@ -79,7 +74,7 @@ class BaseOperation():
 			try:
 				anatomical_file_path = self._getPathOfFiles(self.getSubjectPath(subject), *params)[0]
 			except:
-				print "In exception block"
+				print("In exception block")
 				anatomical_file_path = self._getPathOfFiles(intermediate_path, *params)[0]
 		else:
 			try:

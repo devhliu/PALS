@@ -5,9 +5,10 @@ try:
 except ImportError:
 	import tkinter as tk
 	from tkinter import *
+	from tkinter import ttk 
 
 
-from base_input import *
+from .base_input import *
 import webbrowser, os
 import traceback
 from functools import partial
