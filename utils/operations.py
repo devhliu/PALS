@@ -55,8 +55,15 @@ class Operations(WMSegmentationOperation,\
 		self.INTERMEDIATE_FILES = 'Intermediate_Files'
 		self.ORIGINAL_FILES = 'Original_Files'
 
+		self.bidsInitialization()
+
 		self.anatomical_id = self.controller.sv_t1_id.get()
 		self.lesion_mask_id = self.controller.sv_lesion_mask_id.get()
+
+	def bidsInitialization(self):
+		if self.controller.is_bids_format.get() == True:
+			self.controller.sv_t1_id.set('T1w')
+			self.controller.sv_lesion_mask_id.set('label-lesion')
 
 	def isMajorOperationSelected(self):
 		return self.controller.b_radiological_convention.get()\
@@ -227,18 +234,27 @@ class Operations(WMSegmentationOperation,\
 					self.controller.b_freesurfer_rois.set(False)
 					errors.append('Subject [%s] is missing aparc+aseg.mgz/T1.mgz file. PALS will not run Lesionload calculation on Free Surfer ROIs'%subject)
 
-		errors = '\n'.join(errors)
-
-		self.controller.updateMessage(errors, log_level='ERROR')
+		errors = '\n'.join(errors).strip()
+		if errors != '':
+			self.controller.updateMessage(errors, log_level='ERROR')
 		return flag
 
 
 	def getT1NLesionFromInput(self, subject):
 		subject_input_path = os.path.join(self.input_directory, subject)
 		params = (subject, self.anatomical_id, '', '.nii')
+
+		if self.controller.is_bids_format.get() == True:
+			subject_input_path = os.path.join(subject_input_path, 'anat')
+			params = (subject, '', self.anatomical_id + '.nii.gz', '')
+
 		anatomical_file_path =  self._getPathOfFiles(subject_input_path, *params)
 
 		params = (subject, self.lesion_mask_id, '', '.nii')
+
+		if self.controller.is_bids_format.get() == True:
+			params = (subject, self.lesion_mask_id, '.nii.gz', '')
+
 		lesion_files = self._getPathOfFiles(subject_input_path, *params)
 
 		return anatomical_file_path, lesion_files
@@ -357,7 +373,12 @@ class Operations(WMSegmentationOperation,\
 				if os.path.exists(output_directory):
 					rmtree(output_directory)
 				os.makedirs(output_directory)
+
 				input_directory = os.path.join(base_input_directory, directory)
+
+				if self.controller.is_bids_format.get() == True:
+					input_directory = os.path.join(input_directory, 'anat')
+
 				self._createOriginalFiles(input_directory, output_directory)
 		self.subjects.sort()
 

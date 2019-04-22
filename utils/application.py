@@ -35,6 +35,8 @@ class Application(object):
 		self.sv_lesion_mask_id = NameVarStore('', '')
 		self.b_same_anatomical_space = NameVarStore('', False)
 
+		self.is_bids_format = NameVarStore('', True)
+
 		self.sv_bet_id = NameVarStore('', '')
 		self.sv_wm_id = NameVarStore('', '')
 		self.b_brain_extraction = NameVarStore('', False)

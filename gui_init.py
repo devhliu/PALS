@@ -65,6 +65,9 @@ class MainWindow(tk.Tk):
 		self.sv_lesion_mask_id = StringVar(self)
 		self.b_same_anatomical_space = BooleanVar(self)
 
+		self.is_bids_format = BooleanVar(self)
+		self.is_bids_format.set(True)
+
 		self.sv_t1_id.set('')
 		self.sv_lesion_mask_id.set('')
 		self.b_same_anatomical_space.set(False)

@@ -145,6 +145,12 @@ def readApplicationConfigs(application, config_file):
 			application.b_same_anatomical_space.set(common_configs['same_anatomical_space'])
 		else:
 			application.updateMessage('Same Anatomical Space flag is missing in configs', 'ERROR')
+
+		if 'is_bids_format' in common_configs:
+			application.is_bids_format.set(common_configs['same_anatomical_space'])
+		else:
+			application.updateMessage('PALS is assuming that the input data is in BIDS format', 'DEBUG')
+
 	else:
 		application.updateMessage('Common configs missing', 'ERROR')
 
